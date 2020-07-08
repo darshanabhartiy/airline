@@ -1,0 +1,1033 @@
+package airline.reservation.system;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author SAGAR KADAM
+ */
+import airlineDB.DatabaseConnection;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.plaf.ColorUIResource;
+import java.util.ArrayList;
+import java.sql.*;
+import java.util.Date;
+public class Search extends javax.swing.JFrame implements Runnable{
+
+    /**
+     * Creates new form Search
+     */
+    CardLayout cards;
+    Vector<String> journeyClass;
+    DefaultComboBoxModel<String> dcbm;
+    String currentCard;
+    JMenuItem login,register,signOut,print;
+    public static int sum;
+    static String classOfJourney;
+    public static String f_id; 
+    //String f_id;
+   public static java.sql.Date doj=null,dor=null;
+    
+    public Search() {
+        initComponents();
+        
+        pnlTitle.setBackground(new Color(0,0,0,200));
+        
+        pnlCardHolder.requestFocusInWindow(); 
+        
+       changeBackground(); //to change background color of Comboboxes 
+        
+        populateComboBox(); // add values to combobox
+        
+        populatePopUp();
+        
+        login.addActionListener(new ActionListener(){
+           public void actionPerformed(ActionEvent ae){
+               Login.logInFrom="search";
+               new Login();
+               dispose();
+           } 
+        });
+        
+        register.addActionListener(new ActionListener(){
+           public void actionPerformed(ActionEvent ae){
+               Login.logInFrom="search";
+               new Registration();
+               dispose();
+           } 
+        });
+        
+       print.addActionListener(new ActionListener(){
+           public void actionPerformed(ActionEvent ae){  
+               new Print();
+               dispose();
+           } 
+        });
+       
+       signOut.addActionListener(new ActionListener(){
+           public void actionPerformed(ActionEvent ae){
+               Login.isLoggedIn=false;
+               Login.logInFrom=null;
+               Login.Cust_Id=0;
+               new Search();
+               dispose();
+           } 
+        });
+        
+        
+        setLocationRelativeTo(null);
+        
+        setVisible(true);
+        setVisible(false);
+        setOpacity(0.0f);
+        
+        //setVisible(false);
+        pack();
+    }
+    
+     public void run(){
+        try{
+            for(float i=0.0f;i<=0.92f;i+=0.01){
+                setOpacity(i);
+                Thread.sleep(5);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    void changeBackground(){
+         cbSourceOW.setBackground(new Color(255,255,255));
+        cbDestinationOW.setBackground(new Color(255,255,255));
+        cbAdultOW.setBackground(new Color(255,255,255));
+        cbChildOW.setBackground(new Color(255,255,255));
+        cbInfantOW.setBackground(new Color(255,255,255));
+        cbClassOW.setBackground(new Color(255,255,255));
+        
+        cbSourceR.setBackground(new Color(255,255,255));
+        cbDestinationR.setBackground(new Color(255,255,255));
+        cbAdultR.setBackground(new Color(255,255,255));
+        cbChildR.setBackground(new Color(255,255,255));
+        cbInfantR.setBackground(new Color(255,255,255));
+        cbClassR.setBackground(new Color(255,255,255));
+        
+       
+        
+        //tblFlights.setBackground(new Color());
+    }
+    
+    void populateComboBox(){
+        for(int i=1;i<=8;i++){
+            cbAdultOW.addItem(Integer.toString(i));
+            cbAdultR.addItem(Integer.toString(i));
+        }
+        
+        for(int i=0;i<=7;i++){
+            cbChildOW.addItem(Integer.toString(i));
+            cbChildR.addItem(Integer.toString(i));
+            if(i<=2){
+                cbInfantOW.addItem(Integer.toString(i));
+                cbInfantR.addItem(Integer.toString(i));
+            }
+        }
+        
+        journeyClass = new Vector<>();
+        journeyClass.add("Economy");
+        journeyClass.add("Business");
+        journeyClass.add("Premium");
+        
+        dcbm=new DefaultComboBoxModel<String>(journeyClass);
+        cbClassOW.setModel(dcbm);
+        cbClassR.setModel(dcbm);
+        
+        
+    }
+    
+    void populatePopUp(){
+        login=new JMenuItem("Login");
+        register=new JMenuItem("Register");
+        signOut=new JMenuItem("Sign Out");
+        print=new JMenuItem("Print Ticket");
+        
+        
+    }
+    
+    
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        popupChoice = new javax.swing.JPopupMenu();
+        pnlMain = new javax.swing.JPanel();
+        pnlSearch = new javax.swing.JPanel();
+        pnlTitle = new javax.swing.JPanel();
+        lblTitle = new javax.swing.JLabel();
+        btnExit = new javax.swing.JButton();
+        lblChoiceIcon = new javax.swing.JLabel();
+        pnlCardHolder = new javax.swing.JPanel();
+        pnlOneWay = new javax.swing.JPanel();
+        lblSourceOW = new javax.swing.JLabel();
+        cbSourceOW = new javax.swing.JComboBox<>();
+        lblJourneydateOW = new javax.swing.JLabel();
+        jdcJourneyDateOW = new com.toedter.calendar.JDateChooser();
+        lblDestinationOW = new javax.swing.JLabel();
+        cbDestinationOW = new javax.swing.JComboBox<>();
+        lblAdultOW = new javax.swing.JLabel();
+        cbAdultOW = new javax.swing.JComboBox<>();
+        cbInfantOW = new javax.swing.JComboBox<>();
+        lblChildOW = new javax.swing.JLabel();
+        cbChildOW = new javax.swing.JComboBox<>();
+        lblInfantOW = new javax.swing.JLabel();
+        lblClassOW = new javax.swing.JLabel();
+        cbClassOW = new javax.swing.JComboBox<>();
+        jspSepOW = new javax.swing.JSeparator();
+        btnSearchOW = new javax.swing.JButton();
+        pnlReturn = new javax.swing.JPanel();
+        lblSourceR = new javax.swing.JLabel();
+        cbSourceR = new javax.swing.JComboBox<>();
+        lblJourneydateR = new javax.swing.JLabel();
+        jdcJourneyDateR = new com.toedter.calendar.JDateChooser();
+        lblDestinationR = new javax.swing.JLabel();
+        cbDestinationR = new javax.swing.JComboBox<>();
+        lblAdultR = new javax.swing.JLabel();
+        cbAdultR = new javax.swing.JComboBox<>();
+        cbInfantR = new javax.swing.JComboBox<>();
+        lblChildR = new javax.swing.JLabel();
+        cbChildR = new javax.swing.JComboBox<>();
+        lblInfantR = new javax.swing.JLabel();
+        lblClassR = new javax.swing.JLabel();
+        cbClassR = new javax.swing.JComboBox<>();
+        jspSepR = new javax.swing.JSeparator();
+        lblJourneydateR1 = new javax.swing.JLabel();
+        jdcReturnDateR = new com.toedter.calendar.JDateChooser();
+        btnSearchR = new javax.swing.JButton();
+        pnlTable = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblFlights = new javax.swing.JTable();
+        btnBack = new javax.swing.JButton();
+        jspCardHolder = new javax.swing.JSeparator();
+        jlpLinks = new javax.swing.JLayeredPane();
+        lblReturn = new javax.swing.JLabel();
+        jspLinks = new javax.swing.JSeparator();
+        lblOneWay = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+
+        pnlMain.setBackground(new java.awt.Color(255, 255, 255));
+
+        pnlSearch.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblTitle.setFont(new java.awt.Font("Segoe Print", 0, 48)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitle.setText("SkyCab");
+
+        btnExit.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        btnExit.setForeground(new java.awt.Color(255, 255, 255));
+        btnExit.setText("[ X ]");
+        btnExit.setBorder(null);
+        btnExit.setContentAreaFilled(false);
+        btnExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+
+        lblChoiceIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/airline/reservation/system/down-arrow-white.png"))); // NOI18N
+        lblChoiceIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblChoiceIconMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlTitleLayout = new javax.swing.GroupLayout(pnlTitle);
+        pnlTitle.setLayout(pnlTitleLayout);
+        pnlTitleLayout.setHorizontalGroup(
+            pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTitleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnExit)
+                    .addComponent(lblChoiceIcon))
+                .addContainerGap())
+        );
+        pnlTitleLayout.setVerticalGroup(
+            pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTitleLayout.createSequentialGroup()
+                .addGroup(pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlTitleLayout.createSequentialGroup()
+                        .addComponent(btnExit)
+                        .addGap(62, 62, 62)
+                        .addComponent(lblChoiceIcon))
+                    .addComponent(lblTitle))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlCardHolder.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCardHolder.setLayout(new java.awt.CardLayout());
+
+        pnlOneWay.setBackground(new java.awt.Color(255, 255, 255));
+        pnlOneWay.setName(""); // NOI18N
+
+        lblSourceOW.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblSourceOW.setText("Source");
+
+        cbSourceOW.setBorder(null);
+        cbSourceOW.setFocusable(false);
+
+        lblJourneydateOW.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblJourneydateOW.setText("Journey Date");
+
+        lblDestinationOW.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblDestinationOW.setText("Destinaion");
+
+        cbDestinationOW.setBorder(null);
+        cbDestinationOW.setFocusable(false);
+        cbDestinationOW.setPreferredSize(new java.awt.Dimension(54, 20));
+        cbDestinationOW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbDestinationOWActionPerformed(evt);
+            }
+        });
+
+        lblAdultOW.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblAdultOW.setText("Adult");
+
+        cbAdultOW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAdultOWActionPerformed(evt);
+            }
+        });
+
+        cbInfantOW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbInfantOWActionPerformed(evt);
+            }
+        });
+
+        lblChildOW.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblChildOW.setText("Child");
+
+        cbChildOW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbChildOWActionPerformed(evt);
+            }
+        });
+
+        lblInfantOW.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblInfantOW.setText("Infant");
+
+        lblClassOW.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblClassOW.setText("Class of Travel");
+
+        cbClassOW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbClassOWActionPerformed(evt);
+            }
+        });
+
+        btnSearchOW.setBackground(new java.awt.Color(0, 102, 255));
+        btnSearchOW.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnSearchOW.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearchOW.setText("Search");
+        btnSearchOW.setBorder(null);
+        btnSearchOW.setContentAreaFilled(false);
+        btnSearchOW.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSearchOW.setOpaque(true);
+        btnSearchOW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchOWActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlOneWayLayout = new javax.swing.GroupLayout(pnlOneWay);
+        pnlOneWay.setLayout(pnlOneWayLayout);
+        pnlOneWayLayout.setHorizontalGroup(
+            pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOneWayLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblDestinationOW)
+                    .addComponent(cbDestinationOW, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlOneWayLayout.createSequentialGroup()
+                        .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbAdultOW, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAdultOW))
+                        .addGap(46, 46, 46)
+                        .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbChildOW, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblChildOW))
+                        .addGap(51, 51, 51)
+                        .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblInfantOW)
+                            .addComponent(cbInfantOW, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(48, 48, 48)
+                        .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblClassOW)
+                            .addComponent(cbClassOW, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(pnlOneWayLayout.createSequentialGroup()
+                        .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblSourceOW)
+                            .addComponent(cbSourceOW, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(113, 113, 113)
+                        .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblJourneydateOW)
+                            .addComponent(jdcJourneyDateOW, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOneWayLayout.createSequentialGroup()
+                .addComponent(jspSepOW, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOneWayLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSearchOW, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(238, 238, 238))
+        );
+        pnlOneWayLayout.setVerticalGroup(
+            pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOneWayLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSourceOW)
+                    .addComponent(lblJourneydateOW))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jdcJourneyDateOW, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                    .addComponent(cbSourceOW))
+                .addGap(24, 24, 24)
+                .addComponent(lblDestinationOW)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbDestinationOW, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(jspSepOW, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAdultOW)
+                    .addComponent(lblChildOW)
+                    .addComponent(lblInfantOW)
+                    .addComponent(lblClassOW))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlOneWayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbAdultOW, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbChildOW, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbInfantOW, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbClassOW, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(btnSearchOW, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
+        );
+
+        pnlCardHolder.add(pnlOneWay, "cardOW");
+
+        pnlReturn.setBackground(new java.awt.Color(255, 255, 255));
+        pnlReturn.setName(""); // NOI18N
+
+        lblSourceR.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblSourceR.setText("Source");
+
+        cbSourceR.setBorder(null);
+        cbSourceR.setFocusable(false);
+
+        lblJourneydateR.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblJourneydateR.setText("Journey Date");
+
+        lblDestinationR.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblDestinationR.setText("Destinaion");
+
+        cbDestinationR.setBorder(null);
+        cbDestinationR.setFocusable(false);
+        cbDestinationR.setPreferredSize(new java.awt.Dimension(54, 20));
+
+        lblAdultR.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblAdultR.setText("Adult");
+
+        cbInfantR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbInfantRActionPerformed(evt);
+            }
+        });
+
+        lblChildR.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblChildR.setText("Child");
+
+        cbChildR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbChildRActionPerformed(evt);
+            }
+        });
+
+        lblInfantR.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblInfantR.setText("Infant");
+
+        lblClassR.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblClassR.setText("Class of Travel");
+
+        cbClassR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbClassRActionPerformed(evt);
+            }
+        });
+
+        lblJourneydateR1.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        lblJourneydateR1.setText("Return Date");
+
+        btnSearchR.setBackground(new java.awt.Color(0, 102, 255));
+        btnSearchR.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnSearchR.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearchR.setText("Search");
+        btnSearchR.setBorder(null);
+        btnSearchR.setContentAreaFilled(false);
+        btnSearchR.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSearchR.setOpaque(true);
+        btnSearchR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchRActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlReturnLayout = new javax.swing.GroupLayout(pnlReturn);
+        pnlReturn.setLayout(pnlReturnLayout);
+        pnlReturnLayout.setHorizontalGroup(
+            pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlReturnLayout.createSequentialGroup()
+                .addComponent(jspSepR, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnlReturnLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlReturnLayout.createSequentialGroup()
+                        .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbAdultR, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAdultR))
+                        .addGap(46, 46, 46)
+                        .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbChildR, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblChildR))
+                        .addGap(54, 54, 54)
+                        .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblInfantR)
+                            .addComponent(cbInfantR, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(48, 48, 48)
+                        .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblClassR)
+                            .addComponent(cbClassR, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(pnlReturnLayout.createSequentialGroup()
+                        .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblSourceR)
+                            .addComponent(cbSourceR, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDestinationR)
+                            .addComponent(cbDestinationR, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(113, 113, 113)
+                        .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jdcReturnDateR, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblJourneydateR1)
+                            .addComponent(lblJourneydateR)
+                            .addComponent(jdcJourneyDateR, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlReturnLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSearchR, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(235, 235, 235))
+        );
+        pnlReturnLayout.setVerticalGroup(
+            pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlReturnLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSourceR)
+                    .addComponent(lblJourneydateR))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jdcJourneyDateR, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                    .addComponent(cbSourceR))
+                .addGap(27, 27, 27)
+                .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDestinationR)
+                    .addComponent(lblJourneydateR1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbDestinationR, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jdcReturnDateR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addComponent(jspSepR, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAdultR)
+                    .addComponent(lblChildR)
+                    .addComponent(lblInfantR)
+                    .addComponent(lblClassR))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlReturnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbAdultR, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbChildR, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbInfantR, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbClassR, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(btnSearchR, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
+        );
+
+        pnlCardHolder.add(pnlReturn, "cardR");
+
+        pnlTable.setBackground(new java.awt.Color(255, 255, 255));
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(0, 0, 0)));
+
+        tblFlights.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        tblFlights.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblFlights.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tblFlights.setFillsViewportHeight(true);
+        tblFlights.setRowHeight(45);
+        tblFlights.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblFlightsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblFlights);
+
+        btnBack.setBackground(new java.awt.Color(0, 102, 255));
+        btnBack.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnBack.setForeground(new java.awt.Color(255, 255, 255));
+        btnBack.setText("Back");
+        btnBack.setBorder(null);
+        btnBack.setContentAreaFilled(false);
+        btnBack.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBack.setOpaque(true);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlTableLayout = new javax.swing.GroupLayout(pnlTable);
+        pnlTable.setLayout(pnlTableLayout);
+        pnlTableLayout.setHorizontalGroup(
+            pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTableLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(233, 233, 233))
+        );
+        pnlTableLayout.setVerticalGroup(
+            pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTableLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
+
+        pnlCardHolder.add(pnlTable, "cardTable");
+
+        lblReturn.setFont(new java.awt.Font("Tahoma", 0, 22)); // NOI18N
+        lblReturn.setForeground(new java.awt.Color(102, 102, 102));
+        lblReturn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReturn.setText("Return");
+        lblReturn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblReturnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblReturnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblReturnMouseExited(evt);
+            }
+        });
+
+        jspLinks.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        lblOneWay.setFont(new java.awt.Font("Tahoma", 0, 22)); // NOI18N
+        lblOneWay.setForeground(new java.awt.Color(102, 102, 102));
+        lblOneWay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblOneWay.setText("One Way");
+        lblOneWay.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblOneWayMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblOneWayMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblOneWayMouseExited(evt);
+            }
+        });
+
+        jlpLinks.setLayer(lblReturn, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpLinks.setLayer(jspLinks, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpLinks.setLayer(lblOneWay, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jlpLinksLayout = new javax.swing.GroupLayout(jlpLinks);
+        jlpLinks.setLayout(jlpLinksLayout);
+        jlpLinksLayout.setHorizontalGroup(
+            jlpLinksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jlpLinksLayout.createSequentialGroup()
+                .addComponent(lblOneWay, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jspLinks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jlpLinksLayout.setVerticalGroup(
+            jlpLinksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jlpLinksLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jlpLinksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblOneWay, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jspLinks, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jlpLinksLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout pnlSearchLayout = new javax.swing.GroupLayout(pnlSearch);
+        pnlSearch.setLayout(pnlSearchLayout);
+        pnlSearchLayout.setHorizontalGroup(
+            pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSearchLayout.createSequentialGroup()
+                .addGroup(pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jspCardHolder)
+                    .addComponent(pnlCardHolder, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnlSearchLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlpLinks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlSearchLayout.setVerticalGroup(
+            pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSearchLayout.createSequentialGroup()
+                .addComponent(pnlTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(jlpLinks)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jspCardHolder, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlCardHolder, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
+        pnlMain.setLayout(pnlMainLayout);
+        pnlMainLayout.setHorizontalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        pnlMainLayout.setVerticalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addComponent(pnlSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        //setVisible(false);
+        jdcJourneyDateOW.setMinSelectableDate(new Date());
+        jdcJourneyDateR.setMinSelectableDate(new Date());
+        jdcReturnDateR.setMinSelectableDate(new Date());
+        jdcJourneyDateOW.setDate(new Date());
+        jdcJourneyDateR.setDate(new Date());
+        jdcReturnDateR.setDate(new Date());
+        //jdcJourneyDateOW.setMaxSelectableDate(new Date().before(when));
+        try{
+            cbSourceOW.setModel(new DatabaseConnection().populateSource());
+            cbDestinationOW.setModel(new DatabaseConnection().populateDest());
+            cbSourceR.setModel(new DatabaseConnection().populateSource());
+            cbDestinationR.setModel(new DatabaseConnection().populateDest());
+            setVisible(true);
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this,e.toString(),"Exception",JOptionPane.ERROR_MESSAGE);
+        }
+        Thread t1=new Thread(this);
+        t1.start();
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    private void cbInfantOWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbInfantOWActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbInfantOWActionPerformed
+
+    private void cbClassOWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbClassOWActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbClassOWActionPerformed
+
+    private void cbInfantRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbInfantRActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbInfantRActionPerformed
+
+    private void cbClassRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbClassRActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbClassRActionPerformed
+
+    private void lblOneWayMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOneWayMouseEntered
+        // TODO add your handling code here:
+        lblOneWay.setForeground(new Color(0,102,255));
+    }//GEN-LAST:event_lblOneWayMouseEntered
+
+    private void lblReturnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReturnMouseEntered
+        // TODO add your handling code here:
+        lblReturn.setForeground(new Color(0,102,255));
+    }//GEN-LAST:event_lblReturnMouseEntered
+
+    private void lblOneWayMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOneWayMouseExited
+        // TODO add your handling code here:
+        lblOneWay.setForeground(new Color(102,102,102));
+    }//GEN-LAST:event_lblOneWayMouseExited
+
+    private void lblReturnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReturnMouseExited
+        // TODO add your handling code here:
+        lblReturn.setForeground(new Color(102,102,102));
+    }//GEN-LAST:event_lblReturnMouseExited
+
+    private void lblReturnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReturnMouseClicked
+        // TODO add your handling code here:
+        cards=(CardLayout)pnlCardHolder.getLayout();
+        cards.show(pnlCardHolder,"cardR");
+    }//GEN-LAST:event_lblReturnMouseClicked
+
+    private void lblOneWayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOneWayMouseClicked
+        // TODO add your handling code here:
+        cards=(CardLayout)pnlCardHolder.getLayout();
+         cards.show(pnlCardHolder,"cardOW");
+    }//GEN-LAST:event_lblOneWayMouseClicked
+
+    private void cbChildRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChildRActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbChildRActionPerformed
+
+    private void cbAdultOWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAdultOWActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbAdultOWActionPerformed
+
+    private void cbDestinationOWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDestinationOWActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbDestinationOWActionPerformed
+
+    private void cbChildOWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChildOWActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbChildOWActionPerformed
+
+    private void btnSearchOWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchOWActionPerformed
+        // TODO add your handling code here:
+        
+        if(jdcJourneyDateOW.getDate()==null){
+            JOptionPane.showMessageDialog(this,"Select your Date of Journey","JDateChooser",JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            try{
+                if(new DatabaseConnection().populateTable(cbSourceOW.getSelectedItem().toString(),cbDestinationOW.getSelectedItem().toString())==null){
+                    JOptionPane.showMessageDialog(this,"No Flights match your Requirement","Flights",JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    doj=new java.sql.Date(jdcJourneyDateOW.getDate().getTime());
+                    dor=null;
+                    sum=Integer.parseInt(cbAdultOW.getSelectedItem().toString())+Integer.parseInt(cbChildOW.getSelectedItem().toString())+Integer.parseInt(cbInfantOW.getSelectedItem().toString());
+                    classOfJourney=cbClassOW.getSelectedItem().toString();
+                    tblFlights.setModel(new DatabaseConnection().populateTable(cbSourceOW.getSelectedItem().toString(),cbDestinationOW.getSelectedItem().toString()));
+                    jlpLinks.setVisible(false);
+                    jspCardHolder.setVisible(false);
+                    cards=(CardLayout)pnlCardHolder.getLayout();
+                    cards.show(pnlCardHolder,"cardTable");
+                    currentCard="cardOW";
+                    pack();
+                    
+                    
+                }
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this,e.toString(),"Exception",JOptionPane.ERROR_MESSAGE);
+            }   
+        }
+        
+    }//GEN-LAST:event_btnSearchOWActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        cards.show(pnlCardHolder,currentCard);
+        jlpLinks.setVisible(true);
+        jspCardHolder.setVisible(true);
+        pack();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSearchRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchRActionPerformed
+        // TODO add your handling code here:
+        if(jdcJourneyDateR.getDate()==null || jdcReturnDateR.getDate()==null){
+            JOptionPane.showMessageDialog(this,"Select the Journey or Return Dates","JDateChooser",JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            try{
+                if(new DatabaseConnection().populateTable(cbSourceR.getSelectedItem().toString(),cbDestinationR.getSelectedItem().toString())==null){
+                    JOptionPane.showMessageDialog(this,"No Such Flights","Flights",JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    doj=new java.sql.Date(jdcJourneyDateR.getDate().getTime());
+                    dor=new java.sql.Date(jdcReturnDateR.getDate().getTime());
+                    sum=Integer.parseInt(cbAdultR.getSelectedItem().toString())+Integer.parseInt(cbChildR.getSelectedItem().toString())+Integer.parseInt(cbInfantR.getSelectedItem().toString());
+                    classOfJourney=cbClassR.getSelectedItem().toString();
+                    //new Booking(sum);
+                    tblFlights.setModel(new DatabaseConnection().populateTable(cbSourceR.getSelectedItem().toString(),cbDestinationR.getSelectedItem().toString()));
+                    jlpLinks.setVisible(false);
+                    jspCardHolder.setVisible(false);
+                    cards=(CardLayout)pnlCardHolder.getLayout();
+                    cards.show(pnlCardHolder,"cardTable");
+                    currentCard="cardR";
+                    pack();
+                    
+                    
+                }
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this,e.toString(),"Exception",JOptionPane.ERROR_MESSAGE);
+            }   
+        }
+        
+        
+    }//GEN-LAST:event_btnSearchRActionPerformed
+
+    private void lblChoiceIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChoiceIconMouseClicked
+        // TODO add your handling code here:
+       if(Login.isLoggedIn){
+            popupChoice.removeAll();
+            popupChoice.add(print);
+            popupChoice.add(signOut);
+        }
+        else{
+            popupChoice.removeAll();
+            popupChoice.add(login);
+            popupChoice.add(register);
+        }
+        popupChoice.show(lblChoiceIcon, lblChoiceIcon.getWidth()-lblChoiceIcon.getWidth()*3-lblChoiceIcon.getWidth()/2, lblChoiceIcon.getHeight()/2);
+        popupChoice.setVisible(true);
+    }//GEN-LAST:event_lblChoiceIconMouseClicked
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formWindowActivated
+
+    private void tblFlightsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFlightsMouseClicked
+        // TODO add your handling code here:
+        f_id=tblFlights.getModel().getValueAt(tblFlights.getSelectedRow(), 0).toString();
+         new FlightPopUp(f_id,this);
+            setVisible(false);
+    }//GEN-LAST:event_tblFlightsMouseClicked
+
+    /**
+     * @param args the command line arguments
+     */
+    
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnSearchOW;
+    private javax.swing.JButton btnSearchR;
+    private javax.swing.JComboBox<String> cbAdultOW;
+    private javax.swing.JComboBox<String> cbAdultR;
+    private javax.swing.JComboBox<String> cbChildOW;
+    private javax.swing.JComboBox<String> cbChildR;
+    private javax.swing.JComboBox<String> cbClassOW;
+    private javax.swing.JComboBox<String> cbClassR;
+    private javax.swing.JComboBox<String> cbDestinationOW;
+    private javax.swing.JComboBox<String> cbDestinationR;
+    private javax.swing.JComboBox<String> cbInfantOW;
+    private javax.swing.JComboBox<String> cbInfantR;
+    private javax.swing.JComboBox<String> cbSourceOW;
+    private javax.swing.JComboBox<String> cbSourceR;
+    private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser jdcJourneyDateOW;
+    private com.toedter.calendar.JDateChooser jdcJourneyDateR;
+    private com.toedter.calendar.JDateChooser jdcReturnDateR;
+    private javax.swing.JLayeredPane jlpLinks;
+    private javax.swing.JSeparator jspCardHolder;
+    private javax.swing.JSeparator jspLinks;
+    private javax.swing.JSeparator jspSepOW;
+    private javax.swing.JSeparator jspSepR;
+    private javax.swing.JLabel lblAdultOW;
+    private javax.swing.JLabel lblAdultR;
+    private javax.swing.JLabel lblChildOW;
+    private javax.swing.JLabel lblChildR;
+    private javax.swing.JLabel lblChoiceIcon;
+    private javax.swing.JLabel lblClassOW;
+    private javax.swing.JLabel lblClassR;
+    private javax.swing.JLabel lblDestinationOW;
+    private javax.swing.JLabel lblDestinationR;
+    private javax.swing.JLabel lblInfantOW;
+    private javax.swing.JLabel lblInfantR;
+    private javax.swing.JLabel lblJourneydateOW;
+    private javax.swing.JLabel lblJourneydateR;
+    private javax.swing.JLabel lblJourneydateR1;
+    private javax.swing.JLabel lblOneWay;
+    private javax.swing.JLabel lblReturn;
+    private javax.swing.JLabel lblSourceOW;
+    private javax.swing.JLabel lblSourceR;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JPanel pnlCardHolder;
+    private javax.swing.JPanel pnlMain;
+    private javax.swing.JPanel pnlOneWay;
+    private javax.swing.JPanel pnlReturn;
+    private javax.swing.JPanel pnlSearch;
+    private javax.swing.JPanel pnlTable;
+    private javax.swing.JPanel pnlTitle;
+    private javax.swing.JPopupMenu popupChoice;
+    private javax.swing.JTable tblFlights;
+    // End of variables declaration//GEN-END:variables
+}
